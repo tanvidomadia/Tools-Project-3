@@ -1,0 +1,19 @@
+@font-face {	font-family: 'Tahoma';	src: url('Tahoma.ttf') format('truetype');}
+@font-face {	font-family: 'SansFractionsPlain';	src: url('SansFractionsPlain.ttf') format('truetype');}
+
+canvas1 {   display : block;
+  x: 472;
+  y: 244;
+  margin : auto;}
+
+  div.a {
+    align: center;
+  }
+  p {
+    position: relative;
+ bottom: 8000;
+ right: 600;
+ top: 860px;
+ left : 720px;
+ width: 500px;
+  }

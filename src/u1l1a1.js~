@@ -1,0 +1,85 @@
+ window.onload = function()
+ {
+ var background;
+ var question_text_upper;
+ var question_text_lower;
+ var answer_text1;
+ var cutting_board;
+ var instruction_board;
+ var instruction_text;
+ var tray;
+ var plates = [];
+ var children = [];
+ var cakes = new Array(3);
+ var number_of_pieces = [];
+ var sharing_done_btn;
+ var reset_btn;
+ var input_answer;
+ var linkofdemo;
+ var line1;
+ var help_button;
+ var game = new Phaser.Game(800, 640);
+ var playGame = function(game){}
+ playGame.prototype = 
+ {
+  preload : function()
+  {
+   game.load.image('background','assets/full_background.png');
+   game.load.atlasJSONHash('atlas1', 'assets/spritesheet1.png', 'assets/sprites1.json'); 
+   game.load.atlasJSONHash('atlas2', 'assets/spritesheet2.png', 'assets/sprites2.json'); 
+   
+  },
+  create : function()
+  {
+   background = game.add.sprite(0,0,'background');
+   var style = { font: "16px Tahoma", fill: "ffff", boundsAlignH: "center", boundsAlignV: "middle" };
+   question_text_upper = game.add.text(185,10,'Help Jamuni distribute 3 packets of food fairly among 4 children.',style);
+   question_text_lower = game.add.text(20,510,'What is the share of each child?',style);
+   answer_text1 = game.add.text(70,530,'cakes',style);
+   tray = game.add.sprite(5,83,'atlas2','TRAY');
+   instruction_board = game.add.sprite(5,365,'atlas2','INSTRUCTION_BOARD');
+   instruction_text = game.add.text();
+   cutting_board = game.add.sprite(5,225,'atlas2','CUTTING_BOARD_WITHOUT_GLOW');
+   //adding cakes
+   for(var i=0;i<3;i++)
+   {
+    cakes[i] = game.add.sprite(48 + (i*25), 110,'atlas1','CAKE_WITH_OUT_GLOW');
+   }
+   //adding children
+   children[0] = game.add.sprite(383,137,'atlas2','student1');
+   children[1] = game.add.sprite(590,137,'atlas2','student3');
+   children[2] = game.add.sprite(383,295,'atlas2','student4');
+   children[4] = game.add.sprite(590,295,'atlas2','student2');
+   //adding plates 
+   plates[0] = game.add.sprite(345,185,'atlas2','PLATE_WITHOUT_GLOW');
+   plates[1] = game.add.sprite(555,185,'atlas2','PLATE_WITHOUT_GLOW');
+   plates[2] = game.add.sprite(345,345,'atlas2','PLATE_WITHOUT_GLOW');
+   plates[3] = game.add.sprite(555,345,'atlas2','PLATE_WITHOUT_GLOW');   
+   //adding buttons 
+   var buttons = ['1_normal','2_normal','3_normal','4_normal','5_normal','6_normal'];
+   for(var i=0;i<6;i++)
+   {
+   number_of_pieces[i] = game.add.sprite(18+(i*30),313,'atlas1',buttons[i]);
+   }
+   var style1 = { font: "16px Tahoma", fill: "#005DBA", boundsAlignH: "center", boundsAlignV: "middle" };
+   linkofdemo = game.add.text(20,338,'View demo of cutting tool',style1);
+   line1 = new Phaser.Line(12, 356, 178, 356);
+   line1.stroke = "005DBA";
+   var style2 = { font: "italic 13px Tahoma", boundsAlignH: "center", boundsAlignV: "middle" };
+   instruction_text = game.add.text(24,384,'Use the Cutting tool to cut food packets in smaller pieces and drag and drop the food packets or the pieces to each child',style2);
+  instruction_text.wordWrap = true;
+  instruction_text.wordWrapWidth = 180;
+  help_button = game.add.sprite(732,10,'atlas2','HELP_LINK');
+   
+   
+   
+}
+}
+game.state.add('PlayGame', playGame);
+game.state.start('PlayGame');
+}
+
+
+ 
+
+
