@@ -17,6 +17,7 @@ var g;
 var h;
 var isReady = false;
 //creating answer pool for mcqs
+var turn;
 var question;
 var question_id;
 var answer_pool1 = [];
@@ -30,7 +31,14 @@ var style2;
 var correct_ans;
 var count = 1; //counter for quiz questions
 var score_for_each_question;
-var final_array = [question, question_id, correct_ans, score_for_each_question, answer_pool1, answer_pool2, answer_pool3, answer_pool4];
+var final_array = [question, question_id, score_for_each_question, correct_ans, answer_pool1, answer_pool2, answer_pool3, answer_pool4];
+function sortJSON(data, key, way) {
+return data.sort(function(a, b) {
+ var x = a[key]; var y = b[key];
+ if (way === '123' ) { return ((x < y) ? -1 : ((x > y) ? 1 : 0)); }
+ if (way === '321') { return ((x > y) ? -1 : ((x < y) ? 1 : 0)); }
+});
+}
 var x = Papa.parse("assets/Answers.csv", {
 download: true,
 complete: function(results) {
@@ -65,6 +73,9 @@ h = results;
    // game.load.video('intro','assets/introduction.mp4');
     game.load.image('after','assets/left.png');
     game.load.image('before','assets/right.png');
+		game.load.image('tryagain','assets/tryagain.png');
+		game.load.image('submit','assets/submit.png');
+
    // game.load.image('play','assets/playbutton.png');
 
 
@@ -82,10 +93,14 @@ h = results;
 
   create : function()
   {
-   score_for_each_question = 0;
+
+   //score_for_each_question = 0;
 		// if(score[count] > 1)
 		// {
 	 // setTimeout(function () {
+
+		 if(turn == 0)
+		 {
 		 console.log(g);
 		 console.log(h);
 		 this.game.scale.pageAlignHorizontally = true;
@@ -102,52 +117,65 @@ h = results;
 	 //displaying questions for mcq
 		 if( h.data[count][0] == "MC (Multiple choice)" || h.data[count][0] == "MC")
 		 {
-			 if (score_for_each_question < 1)
+			 // if (score_for_each_question < 1)
 			 {
 				 question = h.data[count][2];
+				 final_array[0] = question;
+
 				 console.log(question);
 				 answer_pool1[0] = h.data[count][4];
 				 answer_pool2[0] = h.data[count][6];
 				 answer_pool3[0] = h.data[count][8];
 				 answer_pool4[0] = h.data[count][10];
 				 correct_ans = h.data[count][3];
+				  question_id = h.data[count][1];
+				 final_array[1] = question_id;
+				 final_array[2] = correct_ans;
+				// final_array[3] =
 			 }
 			 //find the max average score
 			 var max = [];
-			 for(j=0;j<4;j++)
-			 {
-			 max[j] = 0;
-		 		}
+			 console.log(g.data);
+			 delete g.data[0];
+			// g.data = sortJSON(g.data, 'Question_id','123');
+			//g.data = _.sortBy(g.data,2);
+			 g.data =  _.sortBy(g.data);
+			 //console.log(g.data);
+			 console.log(g.data);
+			 // for(j=0;j<4;j++)
+			 // {
+			 // max[j] = 0;
+		 		// }
 			 //parsing the answer pool
-			 for(i=1;i<=g.data.length;i++)
+			 for(i=0;i<g.data.length-1;i++)
 			 {
 				 if(g.data[i][1] == h.data[count][1]) //matching question ids
 				 {
-					 if(g.data[i][4] > max[0] && g.data[i][3] == "A")
+					 if(g.data[i][3] == "A") //
 					 {
-						 max[0] =  g.data[i][4];
+						 //max =  g.data[i][4];
 						 answer_pool1.push(g.data[i][0]);
 					 }
-					 if(g.data[i][4] > max[1] && g.data[i][3] == "B")
+					 if(g.data[i][3] == "B") //g.data[i][4] > max[1] &&
 					 {
-						 max =  g.data[i][4];
+						 //max =  g.data[i][4];
 						 answer_pool2.push(g.data[i][0]);
 					 }
-					 if(g.data[i][4] > max[2] && g.data[i][3] == "C")
+					 if(g.data[i][3] == "C") //g.data[i][4] > max[2]
 					 {
-						 max[2] =  g.data[i][4];
+						 //max[2] =  g.data[i][4];
 						 answer_pool3.push(g.data[i][0]);
 					 }
-					 if(g.data[i][4] > max[3] && g.data[i][3] == "D")
+					 if(g.data[i][3] == "D") //g.data[i][4] > max[3] &&
 					 {
-						 max[3] = g.data[i][4];
+						// max[3] = g.data[i][4];
 						 answer_pool4.push(g.data[i][0]);
 					 }
 				 }
 			 }
 
 
-		 screen_text[1] = game.add.text(92,30,h.data[2][2],style);
+		 screen_text[1] = game.add.text(92,30,question,style);
 		 var style1 = { font: "20px tahoma", fill: "#000000", boundsAlignH: "center", boundsAlignV: "middle", wordWrap: true, wordWrapWidth: 850};
 
 		 screen_text[2] = game.add.text(95,200,'Click on the correct text answer below.',style1);
@@ -157,7 +185,7 @@ h = results;
 			//  {
 	    //   question_pool[i][1] = h.data[][];
 			// 	question_pool[i][1] = score;
-			// 	// //adding the question options in the first loop
+			// 	// //adding the question options in the first aloop
 	    // }
 
 		 //
@@ -166,17 +194,43 @@ h = results;
 		 //
 		 // }
 		 //adding all answers for a question in one text
-		 answer_option[0] = game.add.text(100,240,'A.' + g.data[count][0],style2);
-		 answer_option[1] = game.add.text(100,400,'B.' + g.data[count+1][0],style2);
-		 answer_option[2] = game.add.text(100,560,'C.' + g.data[count+2][0],style2);
-		 answer_option[3] = game.add.text(100,720,'D.' + g.data[count+3][0],style2);
+		 if(score_for_each_question == 0)
+		 {
+		 answer_option[0] = game.add.text(100,240,'A.' + answer_pool1[0],style2);
+		 answer_option[1] = game.add.text(100,400,'B.' + answer_pool2[0],style2);
+		 answer_option[2] = game.add.text(100,560,'C.' + answer_pool3[0],style2);
+		 answer_option[3] = game.add.text(100,720,'D.' + answer_pool4[0],style2);
+		 for(i=0;i<4;i++)
+		 {
+		 answer_option[i].inputEnabled = true;
+		 answer_option[i].events.onInputDown.add(this.feedback_function,this);
 
-		 style3 = { font: "23px tahoma", fill: "#39ff14", boundsAlignH: "center", boundsAlignV: "middle", wordWrap: true, wordWrapWidth: 850 }; //correctanswer
-		 feedback[0] = game.add.text(95,502,'',style3);
-		 style4 = { font: "23px tahoma", fill: "#FF0000", boundsAlignH: "center", boundsAlignV: "middle", wordWrap: true, wordWrapWidth: 850 };//wrong answer
-		 feedback_next[0]=game.add.text(95,530,'',style3);
-		 feedback[1] = game.add.text(95,502,'',style4);
-		 feedback_next[1]=game.add.text(95,530,'',style4);
+		 console.log('hey');
+		 }
+ }
+	 if (turn ==1)
+	 {
+		 {
+		answer_option[0] = game.add.text(100,240,'A.' + answer_pool1[1],style2);
+		answer_option[1] = game.add.text(100,400,'B.' + answer_pool2[1],style2);
+		answer_option[2] = game.add.text(100,560,'C.' + answer_pool3[1],style2);
+		answer_option[3] = game.add.text(100,720,'D.' + answer_pool4[1],style2);
+	 }
+	 for(i=0;i<4;i++)
+	 {
+	 answer_option[i].inputEnabled = true;
+	 answer_option[i].events.onInputDown.add(this.feedback_function1,this);
+
+	 }
+
+	 }
+	 else
+	 {
+		 count = count + 1;
+		 game.state.start('start_screen');
+	 }
+
+
 		 //
 		 for(i=0;i<4;i++)
 		 {
@@ -187,8 +241,7 @@ h = results;
 		 console.log('hey');
 		 }
 	 }
-	console.log(final_array);
-	 // }
+
 	 //displaying questions for Sa -- converting to mcq
 	 else
 	 {
@@ -218,12 +271,88 @@ h = results;
 		 //answer_option[i].events.onInputOver.add(over, this);
 		 //answer_option[i].text.events.onInputOut.add(out, this);
 		 console.log('hey');
+
 		 }
 	 }
 	 // }, 100);
-
-
+	 console.log(final_array);
+}
   },
+	feedback_function : function(item)
+	{
+		var correct = correctanswer
+		console.log(item.text);
+		if(item.text == correctanswer)
+		{
+		style3 = { font: "23px tahoma", fill: "#39ff14", boundsAlignH: "center", boundsAlignV: "middle", wordWrap: true, wordWrapWidth: 850 }; //correctanswer
+		feedback[0] = game.add.text(95,502,'',style3);
+		next_button = game.add.sprite(400,700,'after');
+		next_button.inputEnabled = true;
+		next_button.events.onInputDown.add(this.next1,this);
+		//answer_option[i].events.onInputDown.add(this.feedback_function,this);
+
+
+		}
+		else
+		{
+		style4 = { font: "23px tahoma", fill: "#FF0000", boundsAlignH: "center", boundsAlignV: "middle", wordWrap: true, wordWrapWidth: 850 };//wrong answer
+		//feedback_next[0]=game.add.text(95,530,'',style3);
+		feedback[1] = game.add.text(95,502,'',style4);
+		//feedback_next[1]=game.add.text(95,530,'',style4);\\
+		try_again_button = game.add.sprite(400,700,'tryagain');
+		try_again_button.inputEnabled = true;
+		try_again_button.onInputDown.add(this.next2, this);
+
+		}
+
+
+
+	},
+	feedback_function1 : function()
+	{
+		if(item.text == correctanswer)
+		{
+		style3 = { font: "23px tahoma", fill: "#39ff14", boundsAlignH: "center", boundsAlignV: "middle", wordWrap: true, wordWrapWidth: 850 }; //correctanswer
+		feedback[0] = game.add.text(95,502,'',style3);
+		next_button1 = game.add.sprite(400,700,'after');
+		next_button1.inputEnabled = true;
+		next_button1.onInputDown.add(this.next22, this);
+
+	}
+  else {
+		style4 = { font: "23px tahoma", fill: "#FF0000", boundsAlignH: "center", boundsAlignV: "middle", wordWrap: true, wordWrapWidth: 850 };//wrong answer
+	//	feedback_next[0]=game.add.text(95,530,'',style3);
+		feedback[1] = game.add.text(95,502,'',style4);
+		feedback_next[1]=game.add.text(95,530,'',style4);
+		try_again_button2 = game.add.sprite(400,700,'tryagain');
+		try_again_button2.inputEnabled = true;
+		try_again_button2.onInputDown.add(this.next23, this);
+
+  }
+
+
+
+	},
+	next1 : function()
+	{
+	 count ++;
+	 game.state.start('start_screen');
+	},
+	next2 : function()
+	{
+		turn  = turn + 1;
+		game.state.start('start_screen');
+	},
+
+	next22 : function()
+	{
+ count++;
+ game.state.start(start_screen);
+	},
+	next23 : function()
+	{
+
+	},
 }
 game.state.add('start_screen',start_screen);
 game.state.start('start_screen');
