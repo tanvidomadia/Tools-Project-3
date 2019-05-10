@@ -326,24 +326,24 @@ else {
 	{
     // console.log()
     console.log('hi');
-  	if(item.choice == correct_ans)
+  	if(item.choice == 'A')
 		{
-		style3 = { font: "23px tahoma", fill: "#39ff14", boundsAlignH: "center", boundsAlignV: "middle", wordWrap: true, wordWrapWidth: 850 }; //correctanswer
-		feedback[0] = game.add.text(95,502,'',style3);
-		next_button1 = game.add.sprite(400,700,'after');
+		style3 = { font: "16px tahoma", fill: "#39ff14", boundsAlignH: "center", boundsAlignV: "middle", wordWrap: true, wordWrapWidth: 850 }; //correctanswer
+		feedback[0] = game.add.text(95,702,'That is right.',style3);
+		next_button1 = game.add.sprite(700,700,'after');
     next_button1.scale.setTo(0.08,0.08);
 
 		next_button1.inputEnabled = true;
-		next_button1.onInputDown.add(this.next22, this);
+		next_button1.events.onInputDown.add(this.next22, this);
 
 
 	}
   else {
-		style4 = { font: "23px tahoma", fill: "#FF0000", boundsAlignH: "center", boundsAlignV: "middle", wordWrap: true, wordWrapWidth: 850 };//wrong answer
+		style4 = { font: "16px tahoma", fill: "#FF0000", boundsAlignH: "center", boundsAlignV: "middle", wordWrap: true, wordWrapWidth: 850 };//wrong answer
 	//	feedback_next[0]=game.add.text(95,530,'',style3);
-		feedback[1] = game.add.text(95,502,'',style4);
+		feedback[1] = game.add.text(95,702,'That is not right',style4);
 		feedback_next[1]=game.add.text(95,530,'',style4);
-		try_again_button2 = game.add.sprite(400,700,'tryagain');
+		try_again_button2 = game.add.sprite(700,700,'tryagain');
       try_again_button2.scale.setTo(0.3,0.3);
 		try_again_button2.inputEnabled = true;
 		try_again_button2.events.onInputDown.add(this.next23, this);
@@ -376,7 +376,13 @@ else {
     console.log(count);
  count++;
  console.log(count);
- game.state.start(start_screen);
+ turn = 0;
+ final_array = [];
+ answer_pool1 = [];
+ answer_pool2 = [];
+ answer_pool3 = [];
+ answer_pool4 = [];
+ game.state.start('start_screen');
 	},
 	next23 : function()
 	{
@@ -413,12 +419,18 @@ else {
     answer_option[1] = game.add.text(100,360,'B.' + answer_pool2[0],style2);
     answer_option[2] = game.add.text(100,520,'C.' + answer_pool3[0],style2);
     answer_option[3] = game.add.text(100,630,'D.' + answer_pool4[0],style2);
+    answer_option[0].choice = "A";
+    answer_option[1].choice = "B";
+    answer_option[2].choice = "C";
+
+    answer_option[3].choice = "D";
     for(i=0;i<4;i++)
 		{
     answer_option[i].inputEnabled = true;
 		answer_option[i].events.onInputDown.add(this.feedback_function1,this);
     //console.log('hi');
 		}
+
 
   }
 },
