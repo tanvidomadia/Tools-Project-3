@@ -10,6 +10,7 @@ var feedback = [];
 var feedback_next = [];
 var left_button = [];
 var right_button = [];
+var next_button3 = [];
 var feedback_count = [0,0,0,0,0,0,0,0,0];
 var style3;
 var style4;
@@ -597,8 +598,11 @@ if(h.data[count][0] == "SA (Select all that apply)" || h.data[count][0] == "SA")
 	for(i=0;i<4;i++)
 	{
 	answer_option[i].inputEnabled = true;
+  answer_option[i].choice = answer_option[i].text.substring(0,1);
+  console.log(answer_option[i].choice);
   if(h.data[count][0] == "MC (Multiple choice)" || h.data[count][0] == "MC")
   {
+
 	answer_option[i].events.onInputDown.add(this.feedback_function1,this);
 
 	}
@@ -644,10 +648,11 @@ if(h.data[count][0] == "SA (Select all that apply)" || h.data[count][0] == "SA")
    console.log('hi11');
 	 turn = turn + 1;
 	 var correct = correct_ans;
-	 console.log(item.text);
-	 if(item.text == correct_ans)
+   console.log(correct_ans);
+	 console.log(item.choice);
+	 if(item.choice == correct_ans)
 	 {
-	 style3 = { font: "23px tahoma", fill: "#39ff14", boundsAlignH: "center", boundsAlignV: "middle", wordWrap: true, wordWrapWidth: 850 }; //correctanswer
+	 style3 = { font: "16px tahoma", fill: "#39ff14", boundsAlignH: "center", boundsAlignV: "middle", wordWrap: true, wordWrapWidth: 850 }; //correctanswer
 	 feedback[0] = game.add.text(95,700,'That is right.',style3);
 	 next_button = game.add.sprite(700,720,'after');
 	 next_button.inputEnabled = true;
@@ -657,14 +662,14 @@ if(h.data[count][0] == "SA (Select all that apply)" || h.data[count][0] == "SA")
 }
 	 else
 	 {
-	 style4 = { font: "23px tahoma", fill: "#FF0000", boundsAlignH: "center", boundsAlignV: "middle", wordWrap: true, wordWrapWidth: 850 };//wrong answer
+	 style4 = { font: "16px tahoma", fill: "#FF0000", boundsAlignH: "center", boundsAlignV: "middle", wordWrap: true, wordWrapWidth: 850 };//wrong answer
 	 //feedback_next[0]=game.add.text(95,530,'',style3);
 	 feedback[1] = game.add.text(95,700,'That is not right',style4);
 	 //feedback_next[1]=game.add.text(95,530,'',style4);\\
-	 try_again_button = game.add.sprite(700,720,'tryagain');
-   try_again_button.scale.setTo(0.3,0.3);
-	 try_again_button.inputEnabled = true;
-	 try_again_button.events.onInputDown.add(this.next2, this);
+	 next_button3 = game.add.sprite(700,720,'after');
+   next_button3.scale.setTo(0.3,0.3);
+	 next_button3.inputEnabled = true;
+	 next_button3.events.onInputDown.add(this.next2, this);
 	 }
 
 
@@ -678,7 +683,7 @@ if(h.data[count][0] == "SA (Select all that apply)" || h.data[count][0] == "SA")
   console.log(item.text);
   if(item.text == correct_ans)
   {
-  style3 = { font: "23px tahoma", fill: "#39ff14", boundsAlignH: "center", boundsAlignV: "middle", wordWrap: true, wordWrapWidth: 850 }; //correctanswer
+  style3 = { font: "16px tahoma", fill: "#39ff14", boundsAlignH: "center", boundsAlignV: "middle", wordWrap: true, wordWrapWidth: 850 }; //correctanswer
   feedback[0] = game.add.text(95,502,'That is right.',style3);
   next_button = game.add.sprite(700,700,'after');
   next_button.inputEnabled = true;
@@ -688,7 +693,7 @@ if(h.data[count][0] == "SA (Select all that apply)" || h.data[count][0] == "SA")
   }
   else
   {
-  style4 = { font: "23px tahoma", fill: "#FF0000", boundsAlignH: "center", boundsAlignV: "middle", wordWrap: true, wordWrapWidth: 850 };//wrong answer
+  style4 = { font: "16px tahoma", fill: "#FF0000", boundsAlignH: "center", boundsAlignV: "middle", wordWrap: true, wordWrapWidth: 850 };//wrong answer
   //feedback_next[0]=game.add.text(95,530,'',style3);
   feedback[1] = game.add.text(95,502,'That is not right',style4);
   //feedback_next[1]=game.add.text(95,530,'',style4);\\
@@ -701,6 +706,11 @@ if(h.data[count][0] == "SA (Select all that apply)" || h.data[count][0] == "SA")
 
 
  },
+ // showOptions : function()
+ // {
+ //
+ //
+ // },
 
  next11 : function()
  {
