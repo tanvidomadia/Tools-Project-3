@@ -17,6 +17,8 @@ var g;
 var h;
 var isReady = false;
 //creating answer pool for mcqs
+var try_again_button = [];
+var try_again_button2 = [];
 var turn = 0;
 var question;
 var question_id;
@@ -99,7 +101,8 @@ h = results;
 		// if(score[count] > 1)
 		// {
 	 // setTimeout(function () {
-
+  //  var cool = game.time.create();
+   game.time.events.add(Phaser.Timer.SECOND * 1, this.showOptions, this);
 		 if(turn == 0)
 		 {
 		 console.log(g);
@@ -116,7 +119,7 @@ h = results;
 	 //left_button[0].events.onInputDown.add(this.backtosecondscsreen,this);
 	 var style = { font: "23px arial", fill: "#000000", boundsAlignH: "center", boundsAlignV: "middle", wordWrap: true, wordWrapWidth: 850 };
 	 //displaying questions for mcq
-		 if( h.data[count][0] == "MC (Multiple choice)" || h.data[count][0] == "MC")
+		 if(h.data[count][0] == "MC (Multiple choice)" || h.data[count][0] == "MC")
 		 {
 			 // if (score_for_each_question < 1)
 			 {
@@ -179,8 +182,9 @@ h = results;
 		 screen_text[1] = game.add.text(30,30,question,style);
 		 var style1 = { font: "20px tahoma", fill: "#000000", boundsAlignH: "center", boundsAlignV: "middle", wordWrap: true, wordWrapWidth: 850};
 
-		 screen_text[2] = game.add.text(30,400,'Click on the correct text answer below.',style1);
-		 var style2 = { font: "23px tahoma", fill: "#737373", boundsAlignH: "center", boundsAlignV: "middle", wordWrap: true, wordWrapWidth: 850 };
+		 screen_text[2] = game.add.text(30,200,'Click on the correct text answer below.',style1);
+     var style2 = { font: "23px tahoma", fill: "#737373", boundsAlignH: "center", boundsAlignV: "middle", wordWrap: true, wordWrapWidth: 850 };
+
 
 			//  for (i=1;i<h.data.length;i++)
 			//  {
@@ -195,7 +199,7 @@ h = results;
 		 //
 		 // }
 		 //adding all answers for a question in one text
-		 // timer
+		 // Phaser.Timer(100);
 		 // answer_option[0] = game.add.text(100,240,'A.' + answer_pool1[0],style2);
 		 // answer_option[1] = game.add.text(100,400,'B.' + answer_pool2[0],style2);
 		 // answer_option[2] = game.add.text(100,560,'C.' + answer_pool3[0],style2);
@@ -204,9 +208,10 @@ h = results;
 		 // {
 		 // answer_option[i].inputEnabled = true;
 		 // answer_option[i].events.onInputDown.add(this.feedback_function,this);
-		 //
+     //
 		 // console.log('hey');
 		 // }
+
 
 
 
@@ -260,44 +265,53 @@ h = results;
   },
 	feedback_function : function(item)
 	{
+    console.log('hi');
+    console.log(item.choice);
 		turn = turn + 1;
-		var correct = correctanswer
-		console.log(item.text);
-		if(item.text == correctanswer)
+		// var correct = correctanswer
+		// console.log(item.text);
+		if(correct_ans == item.choice && turn ==1)
 		{
 		style3 = { font: "23px tahoma", fill: "#39ff14", boundsAlignH: "center", boundsAlignV: "middle", wordWrap: true, wordWrapWidth: 850 }; //correctanswer
-		feedback[0] = game.add.text(95,502,'',style3);
-		next_button = game.add.sprite(400,700,'after');
+		feedback[0] = game.add.text(95,710,'That is the correct answer.',style3);
+		next_button = game.add.sprite(750,700,'after');
 		next_button.inputEnabled = true;
+    next_button.scale.setTo(0.08,0.08);
+
 		next_button.events.onInputDown.add(this.next1,this);
+
 		//answer_option[i].events.onInputDown.add(this.feedback_function,this);
-
-
 		}
-		else
+		else if(turn == 1)
 		{
 		style4 = { font: "23px tahoma", fill: "#FF0000", boundsAlignH: "center", boundsAlignV: "middle", wordWrap: true, wordWrapWidth: 850 };//wrong answer
 		//feedback_next[0]=game.add.text(95,530,'',style3);
-		feedback[1] = game.add.text(95,502,'',style4);
+		feedback[1] = game.add.text(95,710,'That is not correct. The correct answer is ' + correct_ans,style4);
 		//feedback_next[1]=game.add.text(95,530,'',style4);\\
-		try_again_button = game.add.sprite(400,700,'tryagain');
+		try_again_button = game.add.sprite(750,700,'tryagain');
+    try_again_button.scale.setTo(0.3,0.3);
 		try_again_button.inputEnabled = true;
-		try_again_button.onInputDown.add(this.next2, this);
+		try_again_button.events.onInputDown.add(this.next2, this);
 
 		}
-
-
+    //
+    //
 
 	},
-	feedback_function1 : function()
+	feedback_function1 : function(item)
 	{
-		if(item.text == correctanswer)
+    // console.log()
+    console.log('hi');
+  	if(item.choice == correct_ans)
 		{
 		style3 = { font: "23px tahoma", fill: "#39ff14", boundsAlignH: "center", boundsAlignV: "middle", wordWrap: true, wordWrapWidth: 850 }; //correctanswer
 		feedback[0] = game.add.text(95,502,'',style3);
 		next_button1 = game.add.sprite(400,700,'after');
+    next_button1.scale.setTo(0.08,0.08);
+
 		next_button1.inputEnabled = true;
 		next_button1.onInputDown.add(this.next22, this);
+
 
 	}
   else {
@@ -334,20 +348,28 @@ h = results;
 	{
 
 	},
-	update : function()
+	showOptions : function()
 	{
+
+       var style2 = { font: "23px tahoma", fill: "#737373", boundsAlignH: "center", boundsAlignV: "middle", wordWrap: true, wordWrapWidth: 850 };
 		if(answer_pool1.length > 2)
+
 		{
-		answer_option[0] = game.add.text(100,240,'A.' + answer_pool1[0],style2);
-		answer_option[1] = game.add.text(100,400,'B.' + answer_pool2[0],style2);
-		answer_option[2] = game.add.text(100,560,'C.' + answer_pool3[0],style2);
-		answer_option[3] = game.add.text(100,720,'D.' + answer_pool4[0],style2);
+		answer_option[0] = game.add.text(100,220,'A.' + answer_pool1[0],style2);
+		answer_option[1] = game.add.text(100,360,'B.' + answer_pool2[0],style2);
+		answer_option[2] = game.add.text(100,520,'C.' + answer_pool3[0],style2);
+		answer_option[3] = game.add.text(100,630,'D.' + answer_pool4[0],style2);
+    answer_option[0].choice = "A";
+    answer_option[1].choice = "B";
+    answer_option[2].choice = "C";
+
+    answer_option[3].choice = "D";
+    //console.log('hi1');
 		for(i=0;i<4;i++)
 		{
-		answer_option[i].inputEnabled = true;
+    answer_option[i].inputEnabled = true;
 		answer_option[i].events.onInputDown.add(this.feedback_function,this);
-
-		console.log('hey');
+    //console.log('hi');
 		}
 	}
 },
@@ -463,6 +485,7 @@ start : function()
  },
  feedback_function : function(item)
  {
+   console.log('hi11');
 	 turn = turn + 1;
 	 var correct = correctanswer
 	 console.log(item.text);
@@ -474,8 +497,6 @@ start : function()
 	 next_button.inputEnabled = true;
 	 next_button.events.onInputDown.add(this.next1,this);
 	 //answer_option[i].events.onInputDown.add(this.feedback_function,this);
-
-
 	 }
 	 else
 	 {
@@ -486,7 +507,6 @@ start : function()
 	 try_again_button = game.add.sprite(400,700,'tryagain');
 	 try_again_button.inputEnabled = true;
 	 try_again_button.onInputDown.add(this.next2, this);
-
 	 }
 
 
