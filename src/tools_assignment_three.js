@@ -42,17 +42,19 @@ return data.sort(function(a, b) {
  if (way === '321') { return ((x > y) ? -1 : ((x < y) ? 1 : 0)); }
 });
 }
-var x = Papa.parse("assets/Answers.csv", {
+var x = Papa.parse("assets/Answers1.csv", {
 download: true,
+//newline : "\n",
 complete: function(results) {
 	g = results;
+
 //	isReady = true;
 
 	//	k = results;
 	}
 // rest of config ...
 })
-var y = Papa.parse("assets/Questions.csv", {
+var y = Papa.parse("assets/Questions1.csv", {
 download: true,
 complete: function(results) {
 h = results;
@@ -103,7 +105,7 @@ h = results;
 		// {
 	 // setTimeout(function () {
   //  var cool = game.time.create();
-  console.log(h.data.length-1);
+  console.log(h.data.length);
 		 if(turn == 0 && count < h.data.length)
 		 {
 		 console.log(g);
