@@ -102,7 +102,6 @@ h = results;
 		// {
 	 // setTimeout(function () {
   //  var cool = game.time.create();
-   game.time.events.add(Phaser.Timer.SECOND * 1, this.showOptions, this);
 		 if(turn == 0)
 		 {
 		 console.log(g);
@@ -177,8 +176,82 @@ h = results;
 					 }
 				 }
 			 }
+     }
+     game.time.events.add(Phaser.Timer.SECOND * 1, this.showOptions, this);
 
+ // code for selecting SA
+ console.log(h.data[count][0]);
+ if(h.data[count][0] == "SA (Select all that apply)" || h.data[count][0] == "SA")
+ {
+   console.log('hi');
+   // if (score_for_each_question < 1)
+   {
+     question = h.data[count][2];
+     final_array[0] = question;
 
+     console.log(question);
+     //answer_pool1[0] = h.data[count][4];
+     // answer_pool2[0] = h.data[count][6];
+     // answer_pool3[0] = h.data[count][8];
+     // answer_pool4[0] = h.data[count][10];
+     correct_ans = h.data[count][3];
+      question_id = h.data[count][1];
+     final_array[1] = question_id;
+     final_array[2] = correct_ans;
+     console.log(final_array[2]);
+    // final_array[3] =
+   }
+   //find the max average score
+   var max = [];
+   console.log(g.data);
+   delete g.data[0];
+  // g.data = sortJSON(g.data, 'Question_id','123');
+  //g.data = _.sortBy(g.data,2);
+   g.data =  _.sortBy(g.data);
+   //console.log(g.data);
+   console.log(g.data);
+
+   // for(j=0;j<4;j++)
+   // {
+   // max[j] = 0;
+    // }
+   //parsing the answer pool
+   for(i=0;i<g.data.length-count;i++)
+   {
+     console.log('hiiiiii');
+     if(g.data[i][1] == question_id) //matching question ids
+     {
+
+       if(g.data[i][2] == 1) //
+       {
+         //max =  g.data[i][4];
+         answer_pool1.push(g.data[i][0]);
+         console.log('hi');
+       }
+       if(g.data[i][2] == 0.75 ) //g.data[i][4] > max[1] &&
+       {
+         //max =  g.data[i][4];
+         answer_pool2.push(g.data[i][0]);
+         console.log('hi1');
+       }
+       if(g.data[i][2] == 0.5) //g.data[i][4] > max[2]
+       {
+         //max[2] =  g.data[i][4];
+         answer_pool3.push(g.data[i][0]);
+         console.log('hi2');
+       }
+       if(g.data[i][2] == 0) //g.data[i][4] > max[3] &&
+       {
+        // max[3] = g.data[i][4];
+         answer_pool4.push(g.data[i][0]);
+         console.log('hi3');
+       }
+     }
+   }
+   console.log(answer_pool1);
+   console.log(answer_pool2);
+
+ }
 		 screen_text[1] = game.add.text(30,30,question,style);
 		 var style1 = { font: "20px tahoma", fill: "#000000", boundsAlignH: "center", boundsAlignV: "middle", wordWrap: true, wordWrapWidth: 850};
 
@@ -225,7 +298,7 @@ h = results;
 		 // //answer_option[i].text.events.onInputOut.add(out, this);
 		 // console.log('hey');
 		 // }
-	 }
+
 
 	 // //displaying questions for Sa -- converting to mcq
 	 // else
@@ -330,13 +403,20 @@ h = results;
 	},
 	next1 : function()
 	{
-	 count ++;
+    turn = 0;
+	 count = count + 1;
+   console.log(count);
+   final_array = [];
+   answer_pool1 = [];
+   answer_pool2 = [];
+   answer_pool3 = [];
+   answer_pool4 = [];
 	 game.state.start('start_screen');
 	},
 	next2 : function()
 	{
-		turn  = turn + 1;
-		game.state.start('start_screen');
+		//turn  = turn + 1;
+		game.state.start('second_screen');
 	},
 
 	next22 : function()
@@ -346,12 +426,13 @@ h = results;
 	},
 	next23 : function()
 	{
-
+    console.log('yes11');
+   game.state.start('second_screen');
 	},
 	showOptions : function()
 	{
 
-       var style2 = { font: "23px tahoma", fill: "#737373", boundsAlignH: "center", boundsAlignV: "middle", wordWrap: true, wordWrapWidth: 850 };
+       var style2 = { font: "18px tahoma", fill: "#737373", boundsAlignH: "center", boundsAlignV: "middle", wordWrap: true, wordWrapWidth: 850 };
 		if(answer_pool1.length > 2)
 
 		{
@@ -359,6 +440,7 @@ h = results;
 		answer_option[1] = game.add.text(100,360,'B.' + answer_pool2[0],style2);
 		answer_option[2] = game.add.text(100,520,'C.' + answer_pool3[0],style2);
 		answer_option[3] = game.add.text(100,630,'D.' + answer_pool4[0],style2);
+    //if(SA (Select all that apply))
     answer_option[0].choice = "A";
     answer_option[1].choice = "B";
     answer_option[2].choice = "C";
@@ -413,16 +495,47 @@ start : function()
 	 // if(score[count] > 1)
 	 // {
 	// setTimeout(function () {
+  var style = { font: "23px arial", fill: "#000000", boundsAlignH: "center", boundsAlignV: "middle", wordWrap: true, wordWrapWidth: 850 };
+  screen_text[1] = game.add.text(92,146,h.data[count][2],style);
+  var style1 = { font: "20px tahoma", fill: "#000000", boundsAlignH: "center", boundsAlignV: "middle", wordWrap: true, wordWrapWidth: 800 };
 
-
+  screen_text[2] = game.add.text(95,190,'Click on the correct text answer below.',style1);
+  var style2 = { font: "23px tahoma", fill: "#737373", boundsAlignH: "center", boundsAlignV: "middle", wordWrap: true, wordWrapWidth: 800 };
+console.log('yes');
 	if (turn ==1)
 	{
-		{
-	 answer_option[0] = game.add.text(100,240,'A.' + answer_pool1[1],style2);
-	 answer_option[1] = game.add.text(100,400,'B.' + answer_pool2[1],style2);
-	 answer_option[2] = game.add.text(100,560,'C.' + answer_pool3[1],style2);
-	 answer_option[3] = game.add.text(100,720,'D.' + answer_pool4[1],style2);
+    console.log('yes1');
+
+   if(answer_pool1.length !== 1)
+   {
+	 answer_option[0] = game.add.text(100,240,'A.' + answer_pool1[turn],style2);
+ }
+ else {
+    answer_option[0] = game.add.text(100,240,'A.' + answer_pool1[turn-1],style2);
+ }
+ if(answer_pool2.length !== 1)
+ {
+	 answer_option[1] = game.add.text(100,400,'B.' + answer_pool2[turn],style2);
+ }
+ else {
+   answer_option[1] = game.add.text(100,400,'B.' + answer_pool2[turn-1],style2);
+
+ }
+ if(answer_pool3.length !==1)
+ {
+	 answer_option[2] = game.add.text(100,560,'C.' + answer_pool3[turn],style2);
+ }
+ else{
+   answer_option[2] = game.add.text(100,560,'C.' + answer_pool3[turn-1],style2);
+
 	}
+  if(answer_pool4.length !==1)
+  {
+    answer_option[3] = game.add.text(100,720,'D.' + answer_pool4[turn],style2);
+  }
+  else {
+    answer_option[3] = game.add.text(100,720,'D.' + answer_pool4[turn-1],style2);
+  }
 	for(i=0;i<4;i++)
 	{
 	answer_option[i].inputEnabled = true;
@@ -455,7 +568,7 @@ start : function()
 		var style1 = { font: "20px tahoma", fill: "#000000", boundsAlignH: "center", boundsAlignV: "middle", wordWrap: true, wordWrapWidth: 800 };
 
 		screen_text[2] = game.add.text(95,190,'Click on the correct text answer below.',style1);
-		var style2 = { font: "23px tahoma", fill: "#737373", boundsAlignH: "center", boundsAlignV: "middle", wordWrap: true, wordWrapWidth: 800 };
+		var style2 = { font: "16px tahoma", fill: "#737373", boundsAlignH: "center", boundsAlignV: "middle", wordWrap: true, wordWrapWidth: 800 };
 
 		answer_option[0] = game.add.text(100,230,'A.' + g.data[count][0],style2);
 
@@ -521,6 +634,7 @@ start : function()
 	 next_button1 = game.add.sprite(400,700,'after');
 	 next_button1.inputEnabled = true;
 	 next_button1.onInputDown.add(this.next22, this);
+
 
  }
  else {
