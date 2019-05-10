@@ -276,9 +276,13 @@ h = results;
 //   count = count + 1;
 //   game.state.start('start_screen');
 // }
-else {
+else if(count > h.data.length){
+  console.log(count);
   console.log('end');
   game.state.start('end_screen');
+}
+else {
+  game.state.start('second_screen');
 }
 // }
 
@@ -369,7 +373,9 @@ else {
 
 	next22 : function()
 	{
+    console.log(count);
  count++;
+ console.log(count);
  game.state.start(start_screen);
 	},
 	next23 : function()
@@ -402,6 +408,19 @@ else {
     //console.log('hi');
 		}
 	}
+  else {
+    answer_option[0] = game.add.text(100,220,'A.' + answer_pool1[0],style2);
+    answer_option[1] = game.add.text(100,360,'B.' + answer_pool2[0],style2);
+    answer_option[2] = game.add.text(100,520,'C.' + answer_pool3[0],style2);
+    answer_option[3] = game.add.text(100,630,'D.' + answer_pool4[0],style2);
+    for(i=0;i<4;i++)
+		{
+    answer_option[i].inputEnabled = true;
+		answer_option[i].events.onInputDown.add(this.feedback_function1,this);
+    //console.log('hi');
+		}
+
+  }
 },
 }
 var second_screen = function(game){}
@@ -617,7 +636,8 @@ if(h.data[count][0] == "SA (Select all that apply)" || h.data[count][0] == "SA")
 }
 	else
 	{
-    if(count < h.data.length-1)
+    console.log('count');
+    if(count < h.data.length)
     {
 		count = count + 1;
 		game.state.start('start_screen');
@@ -657,6 +677,7 @@ if(h.data[count][0] == "SA (Select all that apply)" || h.data[count][0] == "SA")
 	 style3 = { font: "16px tahoma", fill: "#39ff14", boundsAlignH: "center", boundsAlignV: "middle", wordWrap: true, wordWrapWidth: 850 }; //correctanswer
 	 feedback[0] = game.add.text(95,700,'That is right.',style3);
 	 next_button = game.add.sprite(700,720,'after');
+   console.log('next1');
 	 next_button.inputEnabled = true;
    next_button.scale.setTo(0.08,0.08);
 	 next_button.events.onInputDown.add(this.next11,this);
@@ -669,7 +690,7 @@ if(h.data[count][0] == "SA (Select all that apply)" || h.data[count][0] == "SA")
 	 feedback[1] = game.add.text(95,700,'That is not right',style4);
 	 //feedback_next[1]=game.add.text(95,530,'',style4);\\
 	 next_button3 = game.add.sprite(700,720,'after');
-   next_button3.scale.setTo(0.3,0.3);
+   next_button3.scale.setTo(0.08,0.08);
 	 next_button3.inputEnabled = true;
 	 next_button3.events.onInputDown.add(this.next2, this);
 	 }
@@ -717,12 +738,26 @@ if(h.data[count][0] == "SA (Select all that apply)" || h.data[count][0] == "SA")
  next11 : function()
  {
 	count ++;
+  turn = 0;
+  final_array = [];
+  answer_pool1 = [];
+  answer_pool2 = [];
+  answer_pool3 = [];
+  answer_pool4 = [];
 	game.state.start('start_screen');
  },
  next2 : function()
  {
-	 turn  = turn + 1;
-	 game.state.start('start_screen');
+	 // turn  = turn + 1;
+	 // game.state.start('start_screen');
+   count ++;
+    turn = 0;
+    final_array = [];
+    answer_pool1 = [];
+    answer_pool2 = [];
+    answer_pool3 = [];
+    answer_pool4 = [];
+   game.state.start('start_screen');
  },
 
  next22 : function()
@@ -762,7 +797,8 @@ end_screen.prototype =
   create : function()
   {
   //   sessionstart();
-  console.log('end');
+
+  console.log(count);
   //background[0] = game.add.sprite(0,0,'demo','INTROSCREEN_BG');
   //submit_button = game.add.button()
   this.game.stage.backgroundColor = "#ffffff";
