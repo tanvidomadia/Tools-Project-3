@@ -2,7 +2,7 @@
 window.onload = function()
 {
 
-var game = new Phaser.Game(1050, 850);
+var game = new Phaser.Game(1050, 950);
 var background = [];
 var screen_text = [];
 var answer_option = [];
@@ -291,10 +291,10 @@ else {
 	{
     console.log('hi');
     console.log(item.choice);
-		turn = turn + 1;
+	// turn ++;
 		// var correct = correctanswer
 		// console.log(item.text);
-		if(correct_ans == item.choice && turn ==1)
+		if(correct_ans == item.choice && turn ==0)
 		{
 		style3 = { font: "23px tahoma", fill: "#39ff14", boundsAlignH: "center", boundsAlignV: "middle", wordWrap: true, wordWrapWidth: 850 }; //correctanswer
 		feedback[0] = game.add.text(95,710,'That is the correct answer.',style3);
@@ -306,14 +306,59 @@ else {
 
 		//answer_option[i].events.onInputDown.add(this.feedback_function,this);
 		}
-		else if(turn == 1)
+		else if(turn == 0)
 		{
 		style4 = { font: "23px tahoma", fill: "#FF0000", boundsAlignH: "center", boundsAlignV: "middle", wordWrap: true, wordWrapWidth: 850 };//wrong answer
 		//feedback_next[0]=game.add.text(95,530,'',style3);
-		feedback[1] = game.add.text(95,710,'That is not correct. The correct answer is ' + correct_ans,style4);
+    if(correct_ans == 'A' )
+    {
+      if(answer_pool1.length > 2)
+      {
+		feedback[1] = game.add.text(95,710,'That is not correct.' + answer_pool1[2],style4);
+  }
+  else {
+    feedback[1] = game.add.text(95,710,'That is not correct.' + answer_pool1[0],style4);
+
+  }
+  }
+
+  if(correct_ans == 'B' )
+  {
+    if(answer_pool2.length > 2)
+    {
+  feedback[1] = game.add.text(95,710,'That is not correct.' + answer_pool2[2],style4);
+}
+else {
+  feedback[1] = game.add.text(95,710,'That is not correct.' + answer_pool2[0],style4);
+
+}
+}
+if(correct_ans == 'C' )
+{
+  if( answer_pool3.length > 2)
+  {
+    feedback[1] = game.add.text(95,710,'That is not correct. ' + answer_pool3[2],style4);
+
+  }
+  else {
+    feedback[1] = game.add.text(95,710,'That is not correct. ' + answer_pool3[0],style4);
+
+  }
+}
+if(correct_ans == 'D' )
+{
+  if(answer_pool4.length > 2)
+  {
+  feedback[1] = game.add.text(95,710,'That is not correct.  ' + answer_pool4[2],style4);
+}
+else {
+  feedback[1] = game.add.text(95,710,'That is not correct. ' + answer_pool4[0],style4)
+}
+}
+
 		//feedback_next[1]=game.add.text(95,530,'',style4);\\
-		try_again_button = game.add.sprite(750,700,'tryagain');
-    try_again_button.scale.setTo(0.3,0.3);
+		try_again_button = game.add.sprite(750,900,'tryagain');
+    try_again_button.scale.setTo(0.25,0.25);
 		try_again_button.inputEnabled = true;
 		try_again_button.events.onInputDown.add(this.next2, this);
 
@@ -329,8 +374,8 @@ else {
   	if(item.choice == 'A')
 		{
 		style3 = { font: "16px tahoma", fill: "#39ff14", boundsAlignH: "center", boundsAlignV: "middle", wordWrap: true, wordWrapWidth: 850 }; //correctanswer
-		feedback[0] = game.add.text(95,702,'That is right.',style3);
-		next_button1 = game.add.sprite(700,700,'after');
+		feedback[0] = game.add.text(95,802,'That is right.',style3);
+		next_button1 = game.add.sprite(700,800,'after');
     next_button1.scale.setTo(0.08,0.08);
 
 		next_button1.inputEnabled = true;
@@ -341,10 +386,16 @@ else {
   else {
 		style4 = { font: "16px tahoma", fill: "#FF0000", boundsAlignH: "center", boundsAlignV: "middle", wordWrap: true, wordWrapWidth: 850 };//wrong answer
 	//	feedback_next[0]=game.add.text(95,530,'',style3);
-		feedback[1] = game.add.text(95,702,'That is not right',style4);
-		feedback_next[1]=game.add.text(95,530,'',style4);
-		try_again_button2 = game.add.sprite(700,700,'tryagain');
-      try_again_button2.scale.setTo(0.3,0.3);
+  if(answer_pool1.length >2)
+  {
+		feedback[1] = game.add.text(95,702,'That is not right' + answer_pool1[2],style4);
+  }
+  else {
+  feedback[1] = game.add.text(95,702,'That is not right' + answer_pool1[0],style4);
+  }
+
+		try_again_button2 = game.add.sprite(750,900,'tryagain');
+      try_again_button2.scale.setTo(0.2,0.2);
 		try_again_button2.inputEnabled = true;
 		try_again_button2.events.onInputDown.add(this.next23, this);
 
@@ -681,15 +732,15 @@ if(h.data[count][0] == "SA (Select all that apply)" || h.data[count][0] == "SA")
  feedback_function1 : function(item)
  {
    console.log('hi11');
-	 turn = turn + 1;
+	// turn = turn + 1;
 	 var correct = correct_ans;
    console.log(correct_ans);
 	 console.log(item.choice);
 	 if(item.choice == correct_ans)
 	 {
 	 style3 = { font: "16px tahoma", fill: "#39ff14", boundsAlignH: "center", boundsAlignV: "middle", wordWrap: true, wordWrapWidth: 850 }; //correctanswer
-	 feedback[0] = game.add.text(95,700,'That is right.',style3);
-	 next_button = game.add.sprite(700,720,'after');
+	 feedback[0] = game.add.text(95,800,'That is right.',style3);
+	 next_button = game.add.sprite(700,900,'after');
    console.log('next1');
 	 next_button.inputEnabled = true;
    next_button.scale.setTo(0.08,0.08);
@@ -698,11 +749,48 @@ if(h.data[count][0] == "SA (Select all that apply)" || h.data[count][0] == "SA")
 }
 	 else
 	 {
-	 style4 = { font: "16px tahoma", fill: "#FF0000", boundsAlignH: "center", boundsAlignV: "middle", wordWrap: true, wordWrapWidth: 850 };//wrong answer
-	 //feedback_next[0]=game.add.text(95,530,'',style3);
-	 feedback[1] = game.add.text(95,700,'That is not right',style4);
+     if(correct_ans == 'A')
+     {
+       style4 = { font: "16px tahoma", fill: "#FF0000", boundsAlignH: "center", boundsAlignV: "middle", wordWrap: true, wordWrapWidth: 850 };//wrong answer
+       //feedback_next[0]=game.add.text(95,530,'',style3);
+       if(answer_pool1.length > 2)
+       {
+       feedback[1] = game.add.text(95,700,'That is not right. '+ answer_pool1[2],style4);
+     }
+     else {
+       feedback[1] = game.add.text(95,700,'That is not right. '+ answer_pool1[0],style4);
+     }
+     }
+
+     if(correct_ans == 'B')
+     {
+       style4 = { font: "16px tahoma", fill: "#FF0000", boundsAlignH: "center", boundsAlignV: "middle", wordWrap: true, wordWrapWidth: 850 };//wrong answer
+       //feedback_next[0]=game.add.text(95,530,'',style3);
+       if(answer_pool2.length > 2)
+       {
+       feedback[1] = game.add.text(95,700,'That is not right. '+ answer_pool2[2],style4);
+     }
+     else {
+       feedback[1] = game.add.text(95,700,'That is not right. '+ answer_pool2[0],style4);
+
+     }
+     }
+     if(correct_ans == 'C')
+     {
+       style4 = { font: "16px tahoma", fill: "#FF0000", boundsAlignH: "center", boundsAlignV: "middle", wordWrap: true, wordWrapWidth: 850 };//wrong answer
+       //feedback_next[0]=game.add.text(95,530,'',style3);
+       feedback[1] = game.add.text(95,700,'That is not right. '+ answer_pool3[0],style4);
+     }
+     if(correct_ans == 'D')
+     {
+       style4 = { font: "16px tahoma", fill: "#FF0000", boundsAlignH: "center", boundsAlignV: "middle", wordWrap: true, wordWrapWidth: 850 };//wrong answer
+       //feedback_next[0]=game.add.text(95,530,'',style3);
+       feedback[1] = game.add.text(95,700,'That is not right. '+ answer_pool4[0],style4);
+     }
+
+
 	 //feedback_next[1]=game.add.text(95,530,'',style4);\\
-	 next_button3 = game.add.sprite(700,720,'after');
+	 next_button3 = game.add.sprite(700,900,'after');
    next_button3.scale.setTo(0.08,0.08);
 	 next_button3.inputEnabled = true;
 	 next_button3.events.onInputDown.add(this.next2, this);
@@ -714,14 +802,14 @@ if(h.data[count][0] == "SA (Select all that apply)" || h.data[count][0] == "SA")
  feedback_function2 : function(item)
  {
    console.log('hi11');
-  turn = turn + 1;
+  //turn = turn + 1;
   var correct = correct_ans;
   console.log(item.text);
   if(item.choice == 'A')
   {
   style3 = { font: "16px tahoma", fill: "#39ff14", boundsAlignH: "center", boundsAlignV: "middle", wordWrap: true, wordWrapWidth: 850 }; //correctanswer
-  feedback[0] = game.add.text(95,720,'That is right.',style3);
-  next_button = game.add.sprite(700,700,'after');
+  feedback[0] = game.add.text(95,800,'That is right.',style3);
+  next_button = game.add.sprite(700,900,'after');
   next_button.inputEnabled = true;
    next_button.scale.setTo(0.08,0.08);
   next_button.events.onInputDown.add(this.next11,this);
@@ -731,10 +819,11 @@ if(h.data[count][0] == "SA (Select all that apply)" || h.data[count][0] == "SA")
   {
   style4 = { font: "16px tahoma", fill: "#FF0000", boundsAlignH: "center", boundsAlignV: "middle", wordWrap: true, wordWrapWidth: 850 };//wrong answer
   //feedback_next[0]=game.add.text(95,530,'',style3);
-  feedback[1] = game.add.text(95,720,'That is not right',style4);
+
+  feedback[1] = game.add.text(95,900,'That is not right', + answer_pool1[0],style4);
   //feedback_next[1]=game.add.text(95,530,'',style4);\\
-  try_again_button = game.add.sprite(700,700,'tryagain');
-   try_again_button.scale.setTo(0.3,0.3);
+  try_again_button = game.add.sprite(750,900,'tryagain');
+   try_again_button.scale.setTo(0.25,0.25);
   try_again_button.inputEnabled = true;
   try_again_button.events.onInputDown.add(this.next2, this);
   }
@@ -776,6 +865,12 @@ if(h.data[count][0] == "SA (Select all that apply)" || h.data[count][0] == "SA")
  next22 : function()
  {
 count++;
+turn = 0;
+final_array = [];
+answer_pool1 = [];
+answer_pool2 = [];
+answer_pool3 = [];
+answer_pool4 = [];
 game.state.start(start_screen);
  },
  next23 : function()
